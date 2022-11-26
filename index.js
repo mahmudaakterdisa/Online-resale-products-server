@@ -58,7 +58,15 @@ async function run() {
             console.log(booking);
             const result = await bookingsCollection.insertOne(booking);
             res.send(result);
-        })
+        });
+
+        //get your booking
+        app.get('/bookings', async (req, res) => {
+            const query = {}
+            const cursor = bookingsCollection.find(query);
+            const bookings = await cursor.toArray();
+            res.send(bookings);
+        });
 
 
     }
