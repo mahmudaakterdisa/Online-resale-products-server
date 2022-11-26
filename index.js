@@ -22,6 +22,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const servicesCollection = client.db('Mobel').collection('services');
+        const catagoriesCollection = client.db('Mobel').collection('catagories');
+        const bookingsCollection = client.db('Mobel').collection('bookings');
         app.get('/services', async (req, res) => {
             const query = {}
             const cursor = servicesCollection.find(query);
@@ -31,13 +33,34 @@ async function run() {
 
         //specific service
 
-        app.get('/services/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const service = await servicesCollection.findOne(query);
-            res.send(service);
+        // app.get('/services/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     const query = { _id: ObjectId(id) };
+        //     const service = await servicesCollection.findOne(query);
+        //     res.send(service);
 
+        // });
+
+        //specefic catagories
+
+        app.get('/catagories/:name', async (req, res) => {
+            const name = req.params.name;
+            const query = { catagory_name: (name) };
+            const category = await catagoriesCollection.findOne(query);
+            res.send(category);
+
+        });
+
+        //post bookings data
+
+        app.post('/bookings', async (req, res) => {
+            const booking = req.body;
+            console.log(booking);
+            const result = await bookingsCollection.insertOne(booking);
+            res.send(result);
         })
+
+
     }
     finally {
 
