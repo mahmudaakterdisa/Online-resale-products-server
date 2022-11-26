@@ -61,12 +61,12 @@ async function run() {
         });
 
         //get your all bookings
-        app.get('/bookings', async (req, res) => {
-            const query = {}
-            const cursor = bookingsCollection.find(query);
-            const bookings = await cursor.toArray();
-            res.send(bookings);
-        });
+        // app.get('/bookings', async (req, res) => {
+        //     const query = {}
+        //     const cursor = bookingsCollection.find(query);
+        //     const bookings = await cursor.toArray();
+        //     res.send(bookings);
+        // });
 
         //get your booking with your specific email
         app.get('/bookings', async (req, res) => {
