@@ -51,16 +51,27 @@ async function run() {
 
         });
 
+        //get your booking with your specific email
+        app.get('/bookings', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email: email };
+            const allbookings = await bookingsCollection.find(query).toArray();
+            res.send(allbookings);
+        });
+
         //post bookings data
 
         app.post('/bookings', async (req, res) => {
             const booking = req.body;
-            console.log(booking);
+
             const result = await bookingsCollection.insertOne(booking);
             res.send(result);
         });
 
-        //get your all bookings
+
+
+        // get your all bookings
         // app.get('/bookings', async (req, res) => {
         //     const query = {}
         //     const cursor = bookingsCollection.find(query);
@@ -68,13 +79,7 @@ async function run() {
         //     res.send(bookings);
         // });
 
-        //get your booking with your specific email
-        app.get('/bookings', async (req, res) => {
-            const email = req.body.email;
-            const query = { email: email };
-            const allbookings = await bookingsCollection.find(query).toArray();
-            res.send(allbookings);
-        })
+
 
 
     }
