@@ -73,17 +73,54 @@ async function run() {
 
 
 
-        // get your all bookings
-        // app.get('/bookings', async (req, res) => {
-        //     const query = {}
-        //     const cursor = bookingsCollection.find(query);
-        //     const bookings = await cursor.toArray();
-        //     res.send(bookings);
-        // });
+        // get your all users
+        app.get('/users', async (req, res) => {
+            const query = {};
+            const cursor = usersCollection.find(query);
+            const users = await cursor.toArray();
+            res.send(users);
+        });
+
+
+        //specific user using email(dashboardlayout)
+        app.get('/users', async (req, res) => {
+            const email = req.query.email;
+
+            const query = { email: email };
+            const useremail = await usersCollection.find(query).toArray();
+            res.send(useremail);
+
+        });
+
+
+        //specific user
+
+        app.get('/users/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email };
+            const admincheck = await usersCollection.findOne(query);
+            res.send({ isAdmin: admincheck?.role === 'admin' });
+
+        });
 
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await usersCollection.insertOne(user);
+            res.send(result);
+        });
+
+        //Admin role
+
+        app.put('/users/admin/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    role: 'admin'
+                }
+            }
+            const result = await usersCollection.updateOne(filter, updatedDoc, options);
             res.send(result);
         })
 
