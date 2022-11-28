@@ -95,12 +95,12 @@ async function run() {
 
         //get all advertise
 
-        // app.get('/advertise', async (req, res) => {
-        //     const query = {}
-        //     const cursor = advertiseCollection.find(query);
-        //     const advertises = await cursor.toArray();
-        //     res.send(advertises);
-        // });
+        app.get('/catagories', async (req, res) => {
+            const query = {}
+            const cursor = catagoriesCollection.find(query);
+            const advertises = await cursor.toArray();
+            res.send(advertises);
+        });
 
 
 
@@ -207,8 +207,10 @@ async function run() {
                 }
             }
 
-            const updatedResult = await bookingsCollection.updateOne(filter, updatedDoc)
+            const updatedResult = await bookingsCollection.updateOne(filter, updatedDoc);
+
             res.send(result);
+
         })
 
 
